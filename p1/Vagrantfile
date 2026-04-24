@@ -48,4 +48,12 @@ Vagrant.configure("2") do |config|
 
   end
 
+  config.vm.define "ServerWorker" do |agent|
+    controller.vm.hostname = "tdausqueSW"
+    controller.vm.network "private_network", ip: SERVICES['ServerWorker'][:ip]
+    controller.vm.network "forwarded_port", guest: 8081, host: 8081
+    
+
+  end
+
 end
