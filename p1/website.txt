@@ -1,0 +1,25 @@
+https://blog.stephane-robert.info/docs/conteneurs/orchestrateurs/kubernetes/worker-nodes/
+https://medium.com/@salikehassan93/kubernetes-architecture-a-beginners-guide-to-master-and-worker-nodes-c316512c9dc
+
+K3s:
+https://blog.stephane-robert.info/docs/conteneurs/orchestrateurs/k3s/
+https://medium.com/@syed_usman_ahmed/setting-up-k3s-on-a-linux-virtual-machine-e5ffec09aeaf
+https://medium.com/@dharsannanantharaman/create-a-high-availabilty-lightweight-kubernetes-k3s-cluster-using-vagrant-822a1e025855
+https://tferdinand.net/creer-un-cluster-kubernetes-local-avec-vagrant/
+https://blog.wescale.fr/k3s-le-kubernetes-allege-hautement-disponible?ref=tferdinand.net
+https://docs.k3s.io/installation/requirements?os=debian
+https://saumiks.medium.com/setting-up-multi-node-k3s-cluster-using-vagrant-5ac870567a8c
+
+Libvirt:
+https://vagrant-libvirt.github.io/vagrant-libvirt/configuration.html
+https://github.com/vagrant-libvirt/vagrant-libvirt/issues/1831
+
+Vagrant:
+https://blog.stephane-robert.info/docs/infra-as-code/provisionnement/vagrant/
+https://gist.github.com/wpscholar/a49594e2e2b918f4d0c4
+https://developer.hashicorp.com/vagrant/docs
+
+virtualbox problem:
+https://medium.com/@romgalicia/virtualbox-cant-operate-in-vmx-root-mode-here-s-how-to-toggle-kvm-to-fix-it-46ab156b6850
+https://medium.com/@marcoscurtu/virtual-box-cant-operate-in-vmx-root-mode-25af8776fa23
+
