@@ -1,51 +1,27 @@
-# first machine hostname followed by S (like server)
-# second machine hostname followed by SW (like ServerWorker)
-
-# first machine IP -> 192.168.56.110
-# seconde machine IP -> 192.168.56.111
-
-# connect with SSH without password
-
-# install K3s on both machines:
-#   -> (Server) installed in controller mode
-#   -> (ServerWorker) installed in agent mode
-
-SERVICES = {
-  'Server' => {
-    ip: '192.168.56.110',
-    ports: { 8080 => 8080 }
-  },
-  'ServerWorker' => {
-    ip: '192.168.56.111',
-    ports: { 8081 => 8081 }
-  }
-}
-
 Vagrant.configure("2") do |config|
-  config.vm.box = "debian/jessie64"
-  config.vm.box_version = "8.11.1"
+   config.vm.box = "debian/jessie64"
+   config.vm.box_version = "8.11.0"
+   config.vm.synced_folder ".", "/vagrant", disabled: false
 
-  
-  config.vm.provider "virtualbox" do |vb|
-    vb.memory = "512"
-    vb.cpus = 1
-    vb.name = "tdausque"
-  end
+   config.vmdefine "master" do |master|
+		master.vm.hostname = "aroulleaS"
+		master.vm.network "network", ip: "192.168.56.110"
+		master.vm.provider "libvirt" do |libvirt|
+			libvirt.cpus = 1
+			libvirt.memory = "524"
+			libvirt.driver = "kvm"
+		end
+	   master.vm.provision "shell", path: "./script/master.sh"
+	end
 
-  config.vm.define "Server" do |controller|
-    controller.vm.hostname = "tdausqueS"
-    controller.vm.network "private_network", ip: SERVICES['Server'][:ip]
-    controller.vm.network "forwarded_port", guest: 8080, host: 8080
-
-    controller.vm.provision "shell", name: "start-Server", inline: <<-SHELL
-      curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-      echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
-      sudo install -o root -g -root -m 0755 kubectl /usr/local/bin/kubectl
-      chmod +x kubectl
-      mkdir -p ~/.local/bin
-      mv ./kubectl ~/.local/bin/kubectl
-    SHELL
-
-  end
-
+	config.vmdefine "worker" do |worker|
+		worker.vm.hostname = "aroulleaSW"
+		master.vm.network "network", ip: "192.168.56.111"
+		master.vm.provider "libvirt" do |libvirt|
+			libvirt.cpus = 1
+			libvirt.memory = "524"
+			libvirt.driver = "kvm"
+		end
+	   master.vm.provision "shell", path: "./script/worker.sh"
+	end
 end
