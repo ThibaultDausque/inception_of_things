@@ -1,27 +1,31 @@
 Vagrant.configure("2") do |config|
-   config.vm.box = "debian/jessie64"
-   config.vm.box_version = "8.11.0"
-   config.vm.synced_folder ".", "/vagrant", disabled: false
+  config.vm.box = "generic/debian9"
+  config.vm.box_version = "4.3.12"
+#config.vm.box = "ubuntu/focal64"
+# config.vm.box_version = "8.7.0"
+#config.vm.synced_folder ".", "/vagrant", disabled: false
 
-   config.vmdefine "master" do |master|
+   config.vm.define "aroulleaS" do |master|
 		master.vm.hostname = "aroulleaS"
-		master.vm.network "network", ip: "192.168.56.110"
+		master.vm.network "private_network", ip: "192.168.56.110"
 		master.vm.provider "libvirt" do |libvirt|
+			#libvirt.host = "aroulleaS"
 			libvirt.cpus = 1
 			libvirt.memory = "524"
 			libvirt.driver = "kvm"
 		end
-	   master.vm.provision "shell", path: "./script/master.sh"
+	   master.vm.provision "shell", path: "./scripts/master.sh"
 	end
 
-	config.vmdefine "worker" do |worker|
+	config.vm.define "aroulleaSW" do |worker|
 		worker.vm.hostname = "aroulleaSW"
-		master.vm.network "network", ip: "192.168.56.111"
-		master.vm.provider "libvirt" do |libvirt|
+		worker.vm.network "private_network", ip: "192.168.56.111"
+		worker.vm.provider "libvirt" do |libvirt|
+			#libvirt.host = "aroulleaSW"
 			libvirt.cpus = 1
 			libvirt.memory = "524"
 			libvirt.driver = "kvm"
 		end
-	   master.vm.provision "shell", path: "./script/worker.sh"
+	   worker.vm.provision "shell", path: "./scripts/worker.sh"
 	end
 end
