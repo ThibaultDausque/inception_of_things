@@ -33,7 +33,8 @@ Vagrant.configure("2") do |config|
   config.vm.define "Server" do |controller|
     controller.vm.hostname = "tdausqueS"
     controller.vm.network "private_network", ip: SERVICES['Server'][:ip]
-    controller.vm.network "forwarded_port", guest: 8080, host: 8080
-    
+    #controller.vm.network "forwarded_port", guest: 8080, host: 8080
+   
+    config.vm.provision "shell", name: "script", path: "script.sh" 
   end
 end

@@ -1,12 +1,12 @@
-Log created: 2026-04-30T13:45:28.574918000Z
-Process ID:  3241 (0xca9)
-Parent PID:  2495 (0x9bf)
+Log created: 2026-04-30T15:04:16.319862000Z
+Process ID:  3709 (0xe7d)
+Parent PID:  3199 (0xc7f)
 Executable:  /usr/lib/virtualbox/VBoxHeadless
 Arg[0]: /usr/lib/virtualbox/VBoxHeadless
 Arg[1]: --comment
 Arg[2]: tdausque
 Arg[3]: --startvm
-Arg[4]: 3f362b2c-fa63-4b41-95be-fd2a5951d52f
+Arg[4]: d607b6ef-e6f4-4f7d-a4db-b9e38504e7c6
 Arg[5]: --vrde
 Arg[6]: config
 E1000 #0: port=ffffffff mmio=ffffffffffffffff mac-cfg=08:00:27:5f:bb:e6 82540EM R0
@@ -58,7 +58,7 @@ PHY registers ------------------------------------------------------------------
 
 PHY MDIO: state=MDIO_IDLE acc=0 cnt=0 addr=0
 
-E1000 #1: port=ffffffff mmio=ffffffffffffffff mac-cfg=08:00:27:64:e7:62 82540EM R0
+E1000 #1: port=ffffffff mmio=ffffffffffffffff mac-cfg=08:00:27:6d:a1:a9 82540EM R0
 General registers ------------------------------------------------------------------
    CTRL=00000a09  STATUS=00000081    EECD=00000100    EERD=00000000  LEDCTL=07068302
     FLA=00000000    MDIC=00000000                                  CTRL_EXT=00000000
@@ -97,7 +97,7 @@ Diagnostic registers -----------------------------------------------------------
    RDFH=00000000    RDFT=00000000   RDFHS=00000000   RDFTS=00000000   RDFPC=00000000
    TDFH=00000000    TDFT=00000000   TDFHS=00000000   TDFTS=00000000   TDFPC=00000000
 
-RA00: DST 08:00:27:64:e7:62
+RA00: DST 08:00:27:6d:a1:a9
 
 PHY registers ----------------------------------------------------------------------
     PCTRL=1140  PSTATUS=7949      PID=0141     EPID=0c24      ANA=01e1      LPA=01e0
