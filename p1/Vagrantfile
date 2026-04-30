@@ -1,7 +1,7 @@
 Vagrant.configure("2") do |config|
  	config.vm.box = "generic/debian12"
  	config.vm.box_version = "4.3.12"
-	config.vm.synced_folder ".", "/vagrant", type: "rsync"
+#config.vm.synced_folder ".", "/vagrant", type: "9p"
 
    config.vm.define "aroulleaS" do |master|
 		master.vm.hostname = "aroulleaS"
@@ -9,7 +9,7 @@ Vagrant.configure("2") do |config|
 		master.vm.provider "libvirt" do |libvirt|
 			#libvirt.host = "aroulleaS"
 			libvirt.cpus = 1
-			libvirt.memory = "524"
+			libvirt.memory = "1024"
 			libvirt.driver = "qemu"
 		end
 	   master.vm.provision "shell", path: "./scripts/master.sh"
@@ -21,8 +21,8 @@ Vagrant.configure("2") do |config|
 		worker.vm.provider "libvirt" do |libvirt|
 			#libvirt.host = "aroulleaSW"
 			libvirt.cpus = 1
-			libvirt.memory = "524"
-			libvirt.driver = "kvm"
+			libvirt.memory = "1024"
+			libvirt.driver = "qemu"
 		end
 	   worker.vm.provision "shell", path: "./scripts/worker.sh"
 	end

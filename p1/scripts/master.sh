@@ -2,6 +2,10 @@
 
 sudo apt-get update -y
 sudo apt-get install curl -y
+sudo apt-get install  python3 -y
+
+cd /home/vagrant
+python3 -m http.server 8080 &
 
 curl -sfL https://get.k3s.io | sh -
 
