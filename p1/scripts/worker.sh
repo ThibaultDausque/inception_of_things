@@ -1,5 +1,13 @@
 #!/bin/bash
 
+sudo apt-get update
+sudo apt-get install -y iptables
+
+while [ ! -f /vagrant/token ]; do
+	echo "waiting for master"
+	sleep 25
+done
+
 MASTER_IP=$1
 
 TOKEN=$(cat /vagrant/token)
