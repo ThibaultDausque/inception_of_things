@@ -6,9 +6,10 @@ sudo apt-get install -y
 sudo apt-get update -y
 
 curl -sfL https://get.k3s.io | K3S_URL=https://$SERV_IP:6443 sh -s - server \
+	--write-kubeconfig-mode 0644
 
 mkdir -p ~/.kube
 sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
 sudo chown $(id -u):$(id -g) ~/.kube/config
 
-kubectl apply -f /vagrant/tools/hello_world_pod.yaml
+kubectl apply -f /vagrant/tools/deployment.yaml
