@@ -1,21 +1,46 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deployment
-  labels:
-    app: nginx
+  name: app1-demo
 spec:
+  replicas: 1
   selector:
     matchLabels:
-      app: nginx
-  replicas: 1
+      app: app1
   template:
     metadata:
       labels:
-        app: nginx
+        app: app1
     spec:
       containers:
-      - name: nginx
-        image: nginx:18.14.2
+      - name: app1
+        image: nginx:1.24
         ports:
         - containerPort: 80
+        volumeMounts:
+        - mountPath: /usr/share/nginx/html
+          name: app1-dir
+        - mountPath: /usr/share/nginx/html/app1.html
+          name: app1-file
+      volumes:
+      - name: app1-dir
+        hostPath:
+          path: /vagrant/tools
+          type: DirectoryOrCreate
+      - name: app1-file
+        hostPath:
+          path: /vagrant/tools/app1.html
+          type: FileOrCreate
+
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: app1-service
+# spec:
+#   selector:
+#     app: nginx
+#   ports:
+#     - protocol: TCP
+#       port: 80
+#       targetPort: 80
+#   type: ClusterIP
