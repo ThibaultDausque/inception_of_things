@@ -92,24 +92,21 @@ metadata:
   name: app3
 spec:
   replicas: 1
-  selector:
-    matchLabels:
-      app: app3
   template:
     metadata:
       labels:
         app: app3
     spec:
       containers:
-      - name: app3
+      - name: app3.1
         image: nginx:1.24
         ports:
         - containerPort: 9002
         volumeMounts:
-        - mountPath: /usr/share/nginx/html
-          name: app3-dir
+        - mountPath: /usr/share/nginx/html/app1.html
+          name: app3-file
       volumes:
-      - name: app3-dir
+      - name: app3-file
         hostPath:
           path: /vagrant/tools
 
@@ -126,6 +123,12 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 9002
+    - protocol: TCP
+      port: 80
+      targetPort: 9003
+    - protocol: TCP
+      port: 80
+      targetPort: 9004
   type: ClusterIP
 
 ---
@@ -155,6 +158,16 @@ spec:
             backend:
               service:
                 name: app2-service
+                port:
+                  number: 80
+     - host: app3
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: app3-service
                 port:
                   number: 80
                 
