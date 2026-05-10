@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app1-demo
+  name: app1
 spec:
   replicas: 1
   selector:
@@ -16,31 +16,145 @@ spec:
       - name: app1
         image: nginx:1.24
         ports:
-        - containerPort: 80
+        - containerPort: 9000
         volumeMounts:
         - mountPath: /usr/share/nginx/html
           name: app1-dir
-        - mountPath: /usr/share/nginx/html/app1.html
-          name: app1-file
       volumes:
       - name: app1-dir
         hostPath:
           path: /vagrant/tools
-          type: DirectoryOrCreate
-      - name: app1-file
-        hostPath:
-          path: /vagrant/tools/app1.html
-          type: FileOrCreate
 
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: app1-service
-# spec:
-#   selector:
-#     app: nginx
-#   ports:
-#     - protocol: TCP
-#       port: 80
-#       targetPort: 80
-#   type: ClusterIP
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: app1-service
+spec:
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9000
+  type: ClusterIP
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app2
+  template:
+    metadata:
+      labels:
+        app: app2
+    spec:
+      containers:
+      - name: app2
+        image: nginx:1.24
+        ports:
+        - containerPort: 9001
+        volumeMounts:
+        - mountPath: /usr/share/nginx/html
+          name: app2-dir
+      volumes:
+      - name: app2-dir
+        hostPath:
+          path: /vagrant/tools
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: app2-service
+spec:
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9001
+  type: ClusterIP
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app3
+  template:
+    metadata:
+      labels:
+        app: app3
+    spec:
+      containers:
+      - name: app3
+        image: nginx:1.24
+        ports:
+        - containerPort: 9002
+        volumeMounts:
+        - mountPath: /usr/share/nginx/html
+          name: app3-dir
+      volumes:
+      - name: app3-dir
+        hostPath:
+          path: /vagrant/tools
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: app3-service
+spec:
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9002
+  type: ClusterIP
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app1-ingress
+spec:
+  rules:
+    - host: app1
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: app1-service
+                port:
+                  number: 80
+
+    - host: app2
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: app2-service
+                port:
+                  number: 80
+                
