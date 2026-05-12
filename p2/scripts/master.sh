@@ -13,3 +13,7 @@ echo 'export KUBECONFIG=/home/vagrant/.kube/config' >> /home/vagrant/.bashrc
 TOKEN=$(sudo cat /var/lib/rancher/k3s/server/node-token)
 
 echo $TOKEN > /vagrant/token
+
+kubectl apply -f /vagrant/deployment.yaml
+kubectl apply -f /vagrant/service.yaml
+kubectl apply -f /vagrant/ingress.yaml
