@@ -33,7 +33,7 @@ We must install K3s on both machines:
 * In the second one (ServerWorker), in agent mode.
 ---
 ### P2
-
+loading...
 ---
 
 ### 📜 License
