@@ -12,4 +12,4 @@ echo 'export KUBECONFIG=/home/vagrant/.kube/config' >> /home/vagrant/.bashrc
 
 TOKEN=$(sudo cat /var/lib/rancher/k3s/server/node-token)
 
-echo $TOKEN > /vagrant/token
+echo $TOKEN > /vagrant/.token
