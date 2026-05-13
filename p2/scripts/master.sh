@@ -20,6 +20,10 @@ do
     sleep 5
 done
 
-kubectl apply -f /vagrant/deployment.yaml
-kubectl apply -f /vagrant/service.yaml
-kubectl apply -f /vagrant/ingress.yaml
+kubectl apply -f /vagrant/confs/app1/deployment.yaml
+kubectl apply -f /vagrant/confs/app1/service.yaml
+kubectl apply -f /vagrant/confs/app2/deployment.yaml
+kubectl apply -f /vagrant/confs/app2/service.yaml
+kubectl apply -f /vagrant/confs/app3/deployment.yaml
+kubectl apply -f /vagrant/confs/app3/service.yaml
+kubectl apply -f /vagrant/confs/ingress.yaml

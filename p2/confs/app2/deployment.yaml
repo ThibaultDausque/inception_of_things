@@ -24,4 +24,4 @@ spec:
         - containerPort: 8080
         env:
         - name: MESSAGE
-          value: I just deployed this on Kubernetes!
+          value: Hello from app2.
