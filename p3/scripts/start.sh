@@ -20,7 +20,7 @@ kubectl get pods -n argocd
 
 kubectl apply -f confs/argocd/
 
-kubectl port-forward svc/argocd-server -n argocd 8080:443
+kubectl port-forward svc/argocd-server -n argocd 8080:443 > /dev/null 2>&1 &
 
 kubectl get secret argocd-initial-admin-secret \
   -n argocd \

@@ -3,24 +3,26 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 
 metadata:
-  name: apps-par-env
+  name: p3-app
   namespace: argocd
 
 spec:
   generators:
     - list:
         elements:
-      version: v1
-      version: v2
+          - version: v1
+          - version: v2
 
   template:
     metadata:
-      name: 'app-{{version}}'
+      name: '{{version}}'
 
-  spec:
+    spec:
+      project: p3-project
+
       source:
         repoURL: https://github.com/Frillas/aroullea_app
-        path: 'app/overlays/{{env}}'
+        path: 'app/overlays/{{version}}'
         targetRevision: main
 
       destination:
