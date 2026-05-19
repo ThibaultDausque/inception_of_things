@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+
+kind: AppProject
+
+metadata:
+  name: p3
+  namespace: argocd
+
+spec:
+  sourceRepos:
+    - https://github.com/Frillas/aroullea_app
+
+  destinations:
+    - namespace: dev
+      server: https://kubernetes.default.svc

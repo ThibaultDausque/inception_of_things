@@ -1,0 +1,27 @@
+#!/bin/bash
+set -e
+
+k3d cluster delete from-config || true
+
+if ! command -v kubectl &> /dev/null
+then
+  echo "kubectl is not installed"
+  exit 1
+fi
+
+k3d cluster create --config confs/config.yaml
+kubectl create \
+	-n argocd \
+	-f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+kubectl wait --for=condition=available deployment --all -n argocd --timeout=300s
+
+kubectl get pods -n argocd
+
+kubectl apply -f confs/argocd/
+
+kubectl port-forward svc/argocd-server -n argocd 8080:443
+
+kubectl get secret argocd-initial-admin-secret \
+  -n argocd \
+  -o jsonpath="{.data.password}" | base64 -d

@@ -9,11 +9,11 @@ servers: 1
 
 ports:
   - port: 8888:80
-	nodeFilters:
-	  - loadbalancer
+    nodeFilters:
+      - loadbalancer
 
 files:
-  - source: ./namespace.yaml
+  - source: ./namespaces.yaml
     destination: /var/lib/rancher/k3s/server/manifests/namespaces.yaml
 
 options:

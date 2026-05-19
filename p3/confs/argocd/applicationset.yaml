@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+
+kind: ApplicationSet
+
+metadata:
+  name: apps-par-env
+  namespace: argocd
+
+spec:
+  generators:
+    - list:
+        elements:
+      version: v1
+      version: v2
+
+  template:
+    metadata:
+      name: 'app-{{version}}'
+
+  spec:
+      source:
+        repoURL: https://github.com/Frillas/aroullea_app
+        path: 'app/overlays/{{env}}'
+        targetRevision: main
+
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: 'dev'
+
+      syncPolicy:
+        automated:
+          selfHeal: true
+          prune: true
