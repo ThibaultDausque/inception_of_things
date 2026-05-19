@@ -7,6 +7,17 @@ metadata:
     app.kubernetes.io/part-of: argocd
   name: applications.argoproj.io
 spec:
+  containers:
+  - command:
+    - argocd-server
+    - --staticassets
+    - /shared/app
+    # Add insecure and argocd as rootpath
+    - --insecure
+    - --rootpath
+    - /argocd
+    image: argoproj/argocd:v1.6.2
+    imagePullPolicy: Always
   group: argoproj.io
   names:
     kind: Application
