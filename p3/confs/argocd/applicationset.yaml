@@ -22,7 +22,7 @@ spec:
 
       source:
         repoURL: https://github.com/Frillas/aroullea_app
-        path: 'app/overlays/{{version}}'
+        path: '{{version}}'
         targetRevision: main
 
       destination:
