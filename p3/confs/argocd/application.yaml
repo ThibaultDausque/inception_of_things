@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+
+kind: Application
+
+metadata:
+  name: p3-app
+  namespace: argocd
+
+spec:
+  project: p3-project
+
+  source:
+    repoURL: https://github.com/Frillas/aroullea_app
+    path: v1
+    targetRevision: main
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: 'dev'
+
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
