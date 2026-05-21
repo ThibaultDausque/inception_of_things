@@ -1,7 +1,6 @@
 #!/bin/bash
 set -e
 
-#Install Docker
 if command -v docker &> /dev/null; then
 	echo "Docker is already installed"
 else
@@ -24,28 +23,9 @@ EOF
 	sudo apt update -y
 	sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 	sudo usermod -aG docker $USER
-fi
 
-#Install k3d
-if command -v k3d &> /dev/null; then
-	echo "k3d is already installed"
-else
-	echo "Installing k3d"
-	curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
-fi
-
-#Install kubectl
-if command -v kubectl &> /dev/null; then
-	echo "Kubectl is already installed"
-else
-	echo "Installing kubectl"
-	VERSION=$(curl -L -s https://dl.k8s.io/release/stable.txt)
-	
-	curl -LO "https://dl.k8s.io/release/$VERSION/bin/linux/amd64/kubectl"
-	curl -LO "https://dl.k8s.io/release/$VERSION/bin/linux/amd64/kubectl.sha256"
-
-	echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
-
-	chmod +x kubectl
-	sudo mv kubectl /usr/local/bin/
+	echo ""
+	echo "To use Docker without sudo:"
+	echo " log out and log back in"
+	echo ""
 fi
