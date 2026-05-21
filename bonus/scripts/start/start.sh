@@ -38,11 +38,11 @@ helm upgrade --install gitlab gitlab/gitlab \
   --timeout 1200s \
   --set global.hosts.domain=gitlab.local \
   --set global.hosts.externalIP=127.0.0.1 \
-  --set certmanager.install=false \
-  --set global.ingress.tls.enabled=false \
+  --set certmanager-issuer.email=aroullea@student.42angouleme.fr \
   --set global.edition=ce
 
 kubectl get secret \
+  -n gitlab \
   gitlab-gitlab-initial-root-password \
   -ojsonpath='{.data.password}' | \
   base64 --decode ; \
