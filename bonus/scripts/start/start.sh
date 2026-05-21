@@ -1,0 +1,49 @@
+#!/bin/bash
+set -e
+
+#ArgoCD
+k3d cluster delete from-config || true
+
+if ! command -v kubectl &> /dev/null
+then
+  echo "kubectl is not installed"
+  exit 1
+fi
+
+k3d cluster create --config confs/config.yaml
+kubectl create \
+	-n argocd \
+	-f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+kubectl wait --for=condition=available deployment --all -n argocd --timeout=300s
+
+kubectl get pods -n argocd
+
+kubectl apply -f confs/argocd/
+
+kubectl port-forward svc/argocd-server -n argocd 8080:80 > /dev/null 2>&1 &
+
+kubectl get secret argocd-initial-admin-secret \
+  -n argocd \
+  -o jsonpath="{.data.password}" | base64 -d
+
+#Gitlab
+helm repo add gitlab https://charts.gitlab.io/
+helm repo update
+
+kubectl create namespace gitlab || true
+
+helm upgrade --install gitlab gitlab/gitlab \
+  --namespace gitlab \
+  --timeout 1200s \
+  --set global.hosts.domain=gitlab.local \
+  --set global.hosts.externalIP=127.0.0.1 \
+  --set certmanager.install=false \
+  --set global.ingress.tls.enabled=false \
+  --set global.edition=ce
+
+kubectl get secret \
+  gitlab-gitlab-initial-root-password \
+  -ojsonpath='{.data.password}' | \
+  base64 --decode ; \
+  echo
