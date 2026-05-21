@@ -1,0 +1,9 @@
+global:
+  edition: ce
+
+  hosts:
+    domain: gitlab.local
+    externalIP: 127.0.0.1
+
+certmanager-issuer:
+  email: aroullea@student.42angouleme.fr

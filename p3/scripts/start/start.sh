@@ -9,7 +9,7 @@ then
   exit 1
 fi
 
-k3d cluster create --config confs/config.yaml
+k3d cluster create --config confs/k3d/config.yaml
 kubectl create \
 	-n argocd \
 	-f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml

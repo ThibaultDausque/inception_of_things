@@ -10,7 +10,7 @@ then
   exit 1
 fi
 
-k3d cluster create --config confs/config.yaml
+k3d cluster create --config confs/k3d/config.yaml
 kubectl create \
 	-n argocd \
 	-f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
@@ -34,12 +34,9 @@ helm repo update
 kubectl create namespace gitlab || true
 
 helm upgrade --install gitlab gitlab/gitlab \
-  --namespace gitlab \
-  --timeout 1200s \
-  --set global.hosts.domain=gitlab.local \
-  --set global.hosts.externalIP=127.0.0.1 \
-  --set certmanager-issuer.email=aroullea@student.42angouleme.fr \
-  --set global.edition=ce
+  -n gitlab \
+  -f gitlab-values.yaml \
+  --timeout 1200s
 
 kubectl get secret \
   -n gitlab \
