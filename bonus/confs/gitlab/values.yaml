@@ -5,5 +5,46 @@ global:
     domain: gitlab.local
     externalIP: 127.0.0.1
 
+  redis:
+    host: redis-master.gitlab.svc.cluster.local
+
+  psql:
+    host: postgres-postgresql.gitlab.svc.cluster.local
+    password:
+      secret: postgres-postgresql
+      key: postgres-password
+
+  appConfig:
+    object_store:
+      enabled: false
+
+    artifacts:
+      enabled: false
+
+    lfs:
+      enabled: false
+
+    uploads:
+      enabled: false
+
+    packages:
+      enabled: false
+
+    backups:
+      bucket: no-backups
+      tmpBucket: no-backups-tmp
+
+    global:
+      ingress:
+        configureCertmanager: false
+
+registry:
+  enabled: false
+
+gitlab:
+  toolbox:
+    backups:
+      enabled: false
+
 certmanager-issuer:
   email: aroullea@student.42angouleme.fr

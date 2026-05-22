@@ -27,20 +27,31 @@ kubectl get secret argocd-initial-admin-secret \
   -n argocd \
   -o jsonpath="{.data.password}" | base64 -d
 
+#Namespace
+kubectl create namespace gitlab || true
+
+#bitnami
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+
+#Redis
+helm install redis bitnami/redis \
+  -n gitlab \
+  --set auth.enabled=false
+
+#PostgreSQL
+helm install postgres bitnami/postgresql \
+  -n gitlab \
+  --set auth.postgresPassword='postgresql'
+
 #Gitlab
 helm repo add gitlab https://charts.gitlab.io/
 helm repo update
 
-kubectl create namespace gitlab || true
-
 helm upgrade --install gitlab gitlab/gitlab \
   -n gitlab \
-  -f gitlab-values.yaml \
+  -f confs/gitlab/values.yaml \
   --timeout 1200s
 
-kubectl get secret \
-  -n gitlab \
-  gitlab-gitlab-initial-root-password \
-  -ojsonpath='{.data.password}' | \
-  base64 --decode ; \
-  echo
+kubectl get secret -n gitlab gitlab-gitlab-initial-root-password \
+  -ojsonpath='{.data.password}' |  base64 --decode ; echo
