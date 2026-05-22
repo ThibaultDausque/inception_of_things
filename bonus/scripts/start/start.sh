@@ -44,6 +44,15 @@ helm install postgres bitnami/postgresql \
   -n gitlab \
   --set auth.postgresPassword='postgresql'
 
+#Minio
+helm install minio bitnami/minio \
+  -n gitlab \
+  --set auth.rootUser=minio \
+  --set auth.rootPassword=minio123 \
+  --set defaultBuckets=gitlab-backups
+
+kubectl apply -f confs/gitlab/minio-secret.yaml
+
 #Gitlab
 helm repo add gitlab https://charts.gitlab.io/
 helm repo update

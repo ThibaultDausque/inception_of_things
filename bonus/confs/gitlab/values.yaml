@@ -15,9 +15,6 @@ global:
       key: postgres-password
 
   appConfig:
-    object_store:
-      enabled: false
-
     artifacts:
       enabled: false
 
@@ -31,12 +28,22 @@ global:
       enabled: false
 
     backups:
-      bucket: no-backups
-      tmpBucket: no-backups-tmp
+      bucket: gitlab-backups
+      tmpBucket: gitlab-tmp
 
-    global:
-      ingress:
-        configureCertmanager: false
+minio:
+  enabled: true
+
+  image:
+    registry: docker.io
+    repository: minio/minio
+    tag: latest
+
+  auth:
+    rootUser: minio
+    rootPassword: minio123
+
+  defaultBuckets: gitlab-backups
 
 registry:
   enabled: false
@@ -44,7 +51,11 @@ registry:
 gitlab:
   toolbox:
     backups:
-      enabled: false
+      objectStorage:
+        backend: s3
+        config:
+          secret: gitlab-minio-secret
+          key: config
 
 certmanager-issuer:
   email: aroullea@student.42angouleme.fr
