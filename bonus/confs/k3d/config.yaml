@@ -6,6 +6,7 @@ metadata:
   name: from-config
 
 servers: 1
+agents: 2
 
 ports:
   - port: 8888:80

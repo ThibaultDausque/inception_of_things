@@ -5,6 +5,15 @@ global:
     domain: gitlab.local
     externalIP: 127.0.0.1
 
+  ingress:
+    configureCertmanager: false
+
+    tls:
+      enabled: false
+
+  minio:
+    enabled: false
+
   redis:
     host: redis-master.gitlab.svc.cluster.local
 
@@ -15,40 +24,67 @@ global:
       key: postgres-password
 
   appConfig:
-    artifacts:
-      enabled: false
+    object_store:
+      enabled: true
+      connection:
+        secret: gitlab-minio-secret
+        key: config
 
-    lfs:
-      enabled: false
+    artifacts:
+      enabled: true
+      bucket: gitlab-backups
 
     uploads:
-      enabled: false
+      enabled: true
+      bucket: gitlab-backups
 
     packages:
-      enabled: false
+      enabled: true
+      bucket: gitlab-backups
+
+    lfs:
+      enabled: true
+      bucket: gitlab-backups
 
     backups:
       bucket: gitlab-backups
       tmpBucket: gitlab-tmp
 
-minio:
-  enabled: true
+registry:
+  enabled: false
 
-  image:
-    registry: docker.io
-    repository: minio/minio
-    tag: latest
-
-  auth:
-    rootUser: minio
-    rootPassword: minio123
-
-  defaultBuckets: gitlab-backups
+prometheus:
+  install: false
 
 registry:
   enabled: false
 
+gitlab-runner:
+  install: false
+
+nginx-ingress:
+  enabled: false
+
+certmanager-issuer:
+  email: aroullea@student.42angouleme.fr
+
 gitlab:
+  webservice:
+    minReplicas: 1
+    resources:
+      requests:
+        memory: 300Mi
+      limits:
+        memory: 600Mi
+
+  sidekiq:
+    minReplicas: 1
+    resources:
+      requests:
+        memory: 300Mi
+      limits:
+        memory: 600Mi
+
   toolbox:
     backups:
       objectStorage:
@@ -57,5 +93,21 @@ gitlab:
           secret: gitlab-minio-secret
           key: config
 
-certmanager-issuer:
-  email: aroullea@student.42angouleme.fr
+  gitlab-shell:
+    minReplicas: 1
+    resources:
+      requests:
+        memory: 100Mi
+
+  kas:
+    minReplicas: 1
+    resources:
+      requests:
+        memory: 100Mi
+
+gitaly:
+  resources:
+    requests:
+      memory: 200Mi
+    limits:
+      memory: 400Mi

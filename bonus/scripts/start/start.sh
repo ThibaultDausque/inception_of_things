@@ -4,12 +4,6 @@ set -e
 #ArgoCD
 k3d cluster delete from-config || true
 
-if ! command -v kubectl &> /dev/null
-then
-  echo "kubectl is not installed"
-  exit 1
-fi
-
 k3d cluster create --config confs/k3d/config.yaml
 kubectl create \
 	-n argocd \
@@ -37,19 +31,29 @@ helm repo update
 #Redis
 helm install redis bitnami/redis \
   -n gitlab \
-  --set auth.enabled=false
+  --set auth.enabled=false \
+  --set master.resources.requests.memory=128Mi \
+  --set replica.resources.requests.memory=128Mi
 
 #PostgreSQL
 helm install postgres bitnami/postgresql \
   -n gitlab \
-  --set auth.postgresPassword='postgresql'
+  --set auth.postgresPassword='postgresql' \
+  --set primary.resources.requests.memory=256Mi
 
-#Minio
-helm install minio bitnami/minio \
+#MinIO
+helm repo add minio https://charts.min.io/
+helm repo update
+
+helm install minio minio/minio \
   -n gitlab \
-  --set auth.rootUser=minio \
-  --set auth.rootPassword=minio123 \
-  --set defaultBuckets=gitlab-backups
+  --set rootUser=minio \
+  --set rootPassword=minio123 \
+  --set buckets[0].name=gitlab-backups \
+  --set buckets[1].name=gitlab-tmp \
+  --set mode=standalone \
+  --set resources.requests.memory=256Mi \
+  --set resources.limits.memory=512Mi
 
 kubectl apply -f confs/gitlab/minio-secret.yaml
 
@@ -61,6 +65,10 @@ helm upgrade --install gitlab gitlab/gitlab \
   -n gitlab \
   -f confs/gitlab/values.yaml \
   --timeout 1200s
+
+kubectl create secret generic gitlab-redis-secret \
+  --from-literal=secret='' \
+  -n gitlab
 
 kubectl get secret -n gitlab gitlab-gitlab-initial-root-password \
   -ojsonpath='{.data.password}' |  base64 --decode ; echo
