@@ -7,8 +7,8 @@ spec:
   project: default
   source:
     repoURL: https://github.com/ThibaultDausque/dev.git
-    targetRevision: HEAD
-    path: dev
+    targetRevision: main
+    path: v2
   destination:
     server: https://kubernetes.default.svc
     namespace: dev
