@@ -35,10 +35,17 @@ helm install redis bitnami/redis \
   --set master.resources.requests.memory=128Mi \
   --set replica.resources.requests.memory=128Mi
 
+kubectl create secret generic gitlab-redis-secret \
+  --from-literal=secret='' \
+  -n gitlab
+
 #PostgreSQL
 helm install postgres bitnami/postgresql \
   -n gitlab \
   --set auth.postgresPassword='postgresql' \
+  --set auth.username='gitlab' \
+  --set auth.password='gitlabpass' \
+  --set auth.database='gitlabhq_production' \
   --set primary.resources.requests.memory=256Mi
 
 #MinIO
@@ -66,9 +73,6 @@ helm upgrade --install gitlab gitlab/gitlab \
   -f confs/gitlab/values.yaml \
   --timeout 1200s
 
-kubectl create secret generic gitlab-redis-secret \
-  --from-literal=secret='' \
-  -n gitlab
 
 kubectl get secret -n gitlab gitlab-gitlab-initial-root-password \
   -ojsonpath='{.data.password}' |  base64 --decode ; echo

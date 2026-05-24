@@ -16,12 +16,17 @@ global:
 
   redis:
     host: redis-master.gitlab.svc.cluster.local
+    password:
+      enabled: false
 
   psql:
     host: postgres-postgresql.gitlab.svc.cluster.local
+    port: 5432
+    username: gitlab
+    database: gitlabhq_production
     password:
       secret: postgres-postgresql
-      key: postgres-password
+      key: password
 
   appConfig:
     object_store:
@@ -69,6 +74,9 @@ certmanager-issuer:
   email: aroullea@student.42angouleme.fr
 
 gitlab:
+  gitlab-exporter:
+    enabled: false
+
   webservice:
     minReplicas: 1
     resources:
@@ -81,9 +89,9 @@ gitlab:
     minReplicas: 1
     resources:
       requests:
-        memory: 300Mi
+        memory: 500Mi
       limits:
-        memory: 600Mi
+        memory: 1Gi
 
   toolbox:
     backups:
@@ -100,10 +108,7 @@ gitlab:
         memory: 100Mi
 
   kas:
-    minReplicas: 1
-    resources:
-      requests:
-        memory: 100Mi
+    enabled: false
 
 gitaly:
   resources:
