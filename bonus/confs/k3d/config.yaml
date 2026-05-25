@@ -9,7 +9,10 @@ servers: 1
 agents: 2
 
 ports:
-  - port: 8888:80
+  - port: 80:80
+    nodeFilters:
+      - loadbalancer
+  - port: 443:443
     nodeFilters:
       - loadbalancer
 

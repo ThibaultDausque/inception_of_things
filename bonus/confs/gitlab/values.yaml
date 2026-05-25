@@ -2,8 +2,8 @@ global:
   edition: ce
 
   hosts:
-    domain: localhost
-  externalUrl: http://gitlab.local:8082
+    domain: 127.0.0.1.nip.io
+  externalUrl: http://gitlab.127.0.0.1.nip.io
 
   ingress:
     configureCertmanager: false
@@ -68,7 +68,7 @@ gitlab-runner:
   install: false
 
 nginx-ingress:
-  enabled: false
+  enabled: true
 
 certmanager-issuer:
   email: aroullea@student.42angouleme.fr
@@ -84,9 +84,6 @@ gitlab:
         memory: 1Gi
       limits:
         memory: 2Gi
-    extraEnv:
-      GITLAB_HOST: gitlab.local
-      GITLAB_PORT: "8082"
 
   sidekiq:
     minReplicas: 1
