@@ -1,0 +1,35 @@
+# custom-values.yaml
+global:
+  hosts:
+    domain: bonus.com
+  redis:
+    host: redis.example.com
+    database: 7
+    port: 6379
+    auth:
+      secret: ${REDIS_PWD}
+      key: password
+  psql:
+    host: psql.example.com
+    port: 5432
+    database: gitlabhq_production
+    username: gitlab
+    applicationName: bonus
+    preparedStatements: false
+    databaseTasks: true
+    password:
+      useSecret: True
+      secret: ${PSQL_PWD}
+gitlab:
+  toolbox:
+    backups:
+      objectStorage:
+        config:
+          secret: gitlab-object-storage-s3cmd
+          key: config
+registry:
+  storage:
+    secret: gitlab-registry-storage
+    key: config
+certmanager-issuer:
+  email: webmaster@example.com
