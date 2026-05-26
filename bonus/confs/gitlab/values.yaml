@@ -3,8 +3,9 @@ global:
 
   hosts:
     domain: local
+    https: false
 
-#externalUrl: http://gitlab.local:8082
+  externalUrl: http://gitlab.local:8082
 
   ingress:
     enabled: true
