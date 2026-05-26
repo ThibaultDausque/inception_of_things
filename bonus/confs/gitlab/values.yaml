@@ -2,11 +2,14 @@ global:
   edition: ce
 
   hosts:
-    domain: 127.0.0.1.nip.io
-  externalUrl: http://gitlab.127.0.0.1.nip.io
+    domain: local
+
+#externalUrl: http://gitlab.local:8082
 
   ingress:
+    enabled: true
     configureCertmanager: false
+    class: traefik
 
     tls:
       enabled: false
@@ -68,7 +71,10 @@ gitlab-runner:
   install: false
 
 nginx-ingress:
-  enabled: true
+  enabled: false
+
+gateway:
+  enabled: false
 
 certmanager-issuer:
   email: aroullea@student.42angouleme.fr
