@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+RED='\033[0;31m'
+NORMAL='\033[0m'
+
 if command -v docker &> /dev/null; then
 	echo "Docker is already installed"
 else
@@ -25,7 +28,7 @@ EOF
 	sudo usermod -aG docker $USER
 
 	echo ""
-	echo "To use Docker without sudo:"
-	echo " log out and log back in"
+	echo -e "${RED}To use Docker without sudo:"
+	echo -e "${RED} log out and log back in${NORMAL}"
 	echo ""
 fi

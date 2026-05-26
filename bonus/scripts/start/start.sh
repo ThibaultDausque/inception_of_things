@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+GREEN='\033[0;32m'
+NORMAL='\033[0m'
+
 #ArgoCD
 k3d cluster delete from-config || true
 
@@ -17,9 +20,12 @@ kubectl apply -f confs/argocd/
 
 kubectl port-forward svc/argocd-server -n argocd 8080:80 > /dev/null 2>&1 &
 
+echo -en "${GREEN}ArgoCD password: ${NORMAL}"
 kubectl get secret argocd-initial-admin-secret \
   -n argocd \
   -o jsonpath="{.data.password}" | base64 -d
+
+echo ""
 
 #Namespace
 kubectl create namespace gitlab || true
@@ -73,6 +79,6 @@ helm upgrade --install gitlab gitlab/gitlab \
   -f confs/gitlab/values.yaml \
   --timeout 1200s
 
-
+echo -en "${GREEN}GitLab password: ${NORMAL}"
 kubectl get secret -n gitlab gitlab-gitlab-initial-root-password \
   -ojsonpath='{.data.password}' |  base64 --decode ; echo

@@ -11,7 +11,7 @@ spec:
 
   source:
     repoURL: https://github.com/Frillas/aroullea_app
-    path: v2
+    path: v1
     targetRevision: main
 
   destination:

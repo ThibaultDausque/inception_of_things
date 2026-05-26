@@ -20,7 +20,8 @@ global:
 
   redis:
     host: redis-master.gitlab.svc.cluster.local
-    password:
+    #password:
+    auth:
       enabled: false
 
   psql:
