@@ -28,7 +28,9 @@ EOF
 	sudo usermod -aG docker $USER
 
 	echo ""
-	echo -e "${RED}To use Docker without sudo:"
-	echo -e "${RED} log out and log back in${NORMAL}"
+	echo "${RED}Docker installed.${NORMAL}"
+	echo "${RED}Please log out and log back in before continuing.${NORMAL}"
 	echo ""
+
+	exit 1
 fi

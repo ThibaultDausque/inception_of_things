@@ -7,10 +7,10 @@ metadata:
 
 servers: 1
 
-ports:
-  - port: 8888:80
-    nodeFilters:
-      - loadbalancer
+#ports:
+  #- port: 8888:80
+    #nodeFilters:
+      #- loadbalancer
 
 files:
   - source: ./namespaces.yaml
