@@ -3,7 +3,7 @@
 sudo apt-get update
 sudo apt-get install -y iptables
 
-while [ ! -f /vagrant/token ]; do
+while [ ! -f /vagrant/.token ]; do
 	echo "waiting for master"
 	sleep 25
 done
