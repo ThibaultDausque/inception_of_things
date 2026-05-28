@@ -28,9 +28,9 @@ EOF
 	sudo usermod -aG docker $USER
 
 	echo ""
-	echo "${RED}Docker installed.${NORMAL}"
-	echo "${RED}Please log out and log back in before continuing.${NORMAL}"
+	echo -e "${RED}Docker installed.${NORMAL}"
+	echo -e "${RED}Please log out and log back in before continuing.${NORMAL}"
 	echo ""
 
-	exit 1
+	exit 42
 fi
