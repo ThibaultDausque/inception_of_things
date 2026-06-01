@@ -1,0 +1,25 @@
+apiVersion: k3d.io/v1alpha5
+
+kind: Simple
+
+metadata:
+  name: from-config
+
+servers: 1
+agents: 2
+
+ports:
+  - port: 8082:80
+    nodeFilters:
+      - loadbalancer
+  - port: 8888:80
+    nodeFilters:
+      - loadbalancer
+
+files:
+  - source: ./namespaces.yaml
+    destination: /var/lib/rancher/k3s/server/manifests/namespaces.yaml
+
+options:
+  k3d:
+    wait: true

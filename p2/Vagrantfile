@@ -1,0 +1,16 @@
+Vagrant.configure("2") do |config|
+ 	config.vm.box = "generic/debian12"
+ 	config.vm.box_version = "4.3.12"
+	config.vm.synced_folder ".", "/vagrant"
+
+   config.vm.define "aroulleaS" do |master|
+		master.vm.hostname = "aroulleaS"
+		master.vm.network "private_network", ip: "192.168.56.110"
+		master.vm.provider "virtualbox" do |vb|
+			vb.customize ["modifyvm", :id, "--name", "aroulleaS"]
+			vb.cpus = 2
+			vb.memory = "2048"
+		end
+	   master.vm.provision "shell", path: "./scripts/master.sh"
+	end
+end

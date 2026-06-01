@@ -1,0 +1,126 @@
+global:
+  edition: ce
+
+  hosts:
+    domain: local
+    https: false
+
+  externalUrl: http://gitlab.local:8082
+
+  ingress:
+    enabled: true
+    configureCertmanager: false
+    class: traefik
+
+    tls:
+      enabled: false
+
+  minio:
+    enabled: false
+
+  redis:
+    host: redis-master.gitlab.svc.cluster.local
+    #password:
+    auth:
+      enabled: false
+
+  psql:
+    host: postgres-postgresql.gitlab.svc.cluster.local
+    port: 5432
+    username: gitlab
+    database: gitlabhq_production
+    password:
+      secret: postgres-postgresql
+      key: password
+
+  appConfig:
+    object_store:
+      enabled: true
+      connection:
+        secret: gitlab-minio-secret
+        key: config
+
+    artifacts:
+      enabled: true
+      bucket: gitlab-backups
+
+    uploads:
+      enabled: true
+      bucket: gitlab-backups
+
+    packages:
+      enabled: true
+      bucket: gitlab-backups
+
+    lfs:
+      enabled: true
+      bucket: gitlab-backups
+
+    backups:
+      bucket: gitlab-backups
+      tmpBucket: gitlab-tmp
+
+registry:
+  enabled: false
+
+prometheus:
+  install: false
+
+registry:
+  enabled: false
+
+gitlab-runner:
+  install: false
+
+nginx-ingress:
+  enabled: false
+
+gateway:
+  enabled: false
+
+certmanager-issuer:
+  email: aroullea@student.42angouleme.fr
+
+gitlab:
+  gitlab-exporter:
+    enabled: false
+
+  webservice:
+    minReplicas: 1
+    resources:
+      requests:
+        memory: 1Gi
+      limits:
+        memory: 2Gi
+
+  sidekiq:
+    minReplicas: 1
+    resources:
+      requests:
+        memory: 512Mi
+      limits:
+        memory: 1Gi
+
+  toolbox:
+    backups:
+      objectStorage:
+        backend: s3
+        config:
+          secret: gitlab-minio-secret
+          key: config
+
+  gitlab-shell:
+    minReplicas: 1
+    resources:
+      requests:
+        memory: 100Mi
+
+  kas:
+    enabled: false
+
+gitaly:
+  resources:
+    requests:
+      memory: 200Mi
+    limits:
+      memory: 400Mi
